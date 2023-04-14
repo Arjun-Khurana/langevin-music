@@ -97,8 +97,8 @@ def sample(checkpoint, arch):
     """Sample a chorale from a trained model, loaded from a checkpoint."""
     architecture, _ = ARCHITECTURES[arch]
     model = architecture.load_from_checkpoint(checkpoint)
-    sampled = model.sample()
+    sampled = model.sample(max_len=120)
     print(sampled)
     print(len(sampled))
     chorale = Chorale.decode(sampled)
-    chorale.to_score().show()
+    chorale.to_score().write(fp=f'my_score_{arch}')

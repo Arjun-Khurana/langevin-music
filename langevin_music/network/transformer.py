@@ -66,11 +66,14 @@ class MusicTransformer(pl.LightningModule):
             acc(y_hat[i].permute(1, 2, 0), y[..., i])
         return loss
 
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch, batch_idx, hiddens):
         loss = self.shared_step(batch, self.train_acc)
         self.log("train_loss", loss)
         self.log("train_acc", self.train_acc, on_step=False, on_epoch=True)
-        return loss
+        return {
+            "loss": loss,
+            "hiddens": hiddens  # remember to detach() this
+        }
 
     def validation_step(self, batch, batch_idx):
         loss = self.shared_step(batch, self.valid_acc)

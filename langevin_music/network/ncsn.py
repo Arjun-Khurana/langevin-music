@@ -68,7 +68,7 @@ class NcsnV2Transformer(pl.LightningModule):
         loss = 0.5 * F.mse_loss(s, -noise / sigma)
         return loss
 
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch, batch_idx, hiddens):
         loss = self.shared_step(batch)
         self.log("train_loss", loss)
         return loss

@@ -137,6 +137,7 @@ class ChoraleDataset(Dataset):
             self.scores = []
             for k in bcl.byBWV.keys():
                 score: stream.Score = corpus.parse(f"bach/bwv{k}")
+                score.write(fp=f'data/scores/bwv{k}')
                 print(f"> Processing BWV {k}")
                 self.scores.extend(process(score))
             with open(self.CACHE_FILE, "wb") as f:
